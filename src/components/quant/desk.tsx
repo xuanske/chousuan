@@ -36,6 +36,15 @@ export function Desk() {
     hydrateQuant();
     void refreshQuotes();
     void loadBars();
+    const tick = () => {
+      if (document.visibilityState === "visible") void refreshQuotes();
+    };
+    const id = window.setInterval(tick, 60_000);
+    document.addEventListener("visibilitychange", tick);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener("visibilitychange", tick);
+    };
   }, [refreshQuotes, loadBars]);
 
   return (
@@ -371,8 +380,23 @@ function BacktestPane() {
             {inst?.name} · {STRATEGIES.find((s) => s.id === result.strategy)?.name}
           </h2>
           <p className="mt-1 text-xs text-muted-foreground">
-            {formatDateLong(result.start)} — {formatDateLong(result.end)} · 相对买入持有
+            {formatDateLong(result.start)} — {formatDateLong(result.end)} · 相对买入持有 · {history?.source === "live" ? "Yahoo 行情" : "样本行情，不是实盘"}
           </p>
+          <button
+            type="button"
+            className="mt-2 text-xs text-muted-foreground underline-offset-2 hover:underline"
+            onClick={() => {
+              const blob = new Blob([JSON.stringify(result, null, 2)], { type: "application/json" });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = "筹算-回测.json";
+              a.click();
+              URL.revokeObjectURL(url);
+            }}
+          >
+            导出回测 JSON
+          </button>
           <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
             <Stat label="策略收益" value={formatPct(result.totalReturn)} tone={result.totalReturn} />
             <Stat label="买入持有" value={formatPct(result.benchReturn)} tone={result.benchReturn} />
