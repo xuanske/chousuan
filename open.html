@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>筹算 · A股量化台</title>
+<meta name="description" content="A 股与场内基金量化台：行情、因子、回测、模拟盘。内容不是投资建议。">
+<style>
+  :root { --bg:#0e1114; --ink:#e8e4dc; --mute:#8b8680; --line:#2a2e32; --up:#c4453c; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.7 "Songti SC","Noto Serif SC","Source Han Serif SC",serif; }
+  main { max-width:640px; margin:0 auto; padding:48px 24px 80px; }
+  .mark { width:56px; height:56px; border:1px solid var(--line); display:grid; place-items:center; letter-spacing:.4em; font-size:13px; color:var(--up); }
+  h1 { font-weight:500; font-size:42px; letter-spacing:.35em; margin:28px 0 8px; }
+  .sub { color:var(--mute); letter-spacing:.12em; margin-bottom:32px; }
+  p { margin:0 0 14px; }
+  ul { padding-left:1.2em; }
+  li { margin:6px 0; }
+  .box { border:1px solid var(--line); padding:18px 20px; margin:28px 0; }
+  .warn { font-size:14px; color:var(--mute); }
+  footer { margin-top:48px; font-size:13px; color:var(--mute); letter-spacing:.08em; }
+</style>
+</head>
+<body>
+<main>
+  <div class="mark">筹</div>
+  <h1>筹算</h1>
+  <p class="sub">A 股与场内基金量化台</p>
+  <p>行情、因子筛选、策略回测、模拟盘。红涨绿跌。模拟盘资金 100 万，存在浏览器本地。</p>
+  <div class="box">
+    <p>规则（按 A 股习惯）</p>
+    <ul>
+      <li>信号收盘计算，次日开盘成交</li>
+      <li>T+1：当天买入不能当天卖</li>
+      <li>佣金万一 2.5；股票卖出加 0.05% 印花税</li>
+      <li>一手 100 股；涨跌停视为不成交</li>
+    </ul>
+  </div>
+  <p class="warn">历史回测不代表未来收益。内容不是投资建议。</p>
+  <footer>拂尘 · 筹算 · 开窍 · 玄鉴</footer>
+</main>
+</body>
+</html>
