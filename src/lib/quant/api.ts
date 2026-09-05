@@ -7,26 +7,34 @@ export async function runFetchQuotes(data: { ids: string[] }) {
   return loadQuotesFor(data.ids);
 }
 export async function fetchQuotes(arg: { data: { ids: string[] } }) {
-  const res = await fetch("/api/quotes", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(arg.data),
-  });
-  if (!res.ok) throw new Error("quotes failed");
-  return res.json();
+  try {
+    const res = await fetch("/api/quotes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(arg.data),
+    });
+    if (res.ok) return res.json();
+  } catch {
+    /* 离线用样本 */
+  }
+  return runFetchQuotes(arg.data);
 }
 
 export async function runFetchHistory(data: { id: string; range: RangeKey }) {
   return loadHistoryFor(data.id, data.range);
 }
 export async function fetchHistory(arg: { data: { id: string; range: RangeKey } }) {
-  const res = await fetch("/api/history", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(arg.data),
-  });
-  if (!res.ok) throw new Error("history failed");
-  return res.json();
+  try {
+    const res = await fetch("/api/history", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(arg.data),
+    });
+    if (res.ok) return res.json();
+  } catch {
+    /* 离线 */
+  }
+  return runFetchHistory(arg.data);
 }
 
 export async function runFetchScreener() {

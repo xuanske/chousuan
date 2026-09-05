@@ -1,0 +1,9 @@
+{
+  "name": "筹算",
+  "short_name": "筹算",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e1114",
+  "theme_color": "#c4453c",
+  "lang": "zh-CN"
+}

@@ -2,6 +2,12 @@
 
 A 股与场内基金量化台：行情、因子筛选、策略回测、模拟盘。内容不是投资建议。
 
+## 直接打开（国内）
+
+浏览器打开：[https://cdn.jsdelivr.net/gh/xuanske/chousuan@main/docs/index.html](https://cdn.jsdelivr.net/gh/xuanske/chousuan@main/docs/index.html)
+
+打不开就下载 Releases 里的 zip，解压后打开 `index.html`。
+
 ## 怎么用
 
 需要 [Node.js 20](https://nodejs.org/) 或以上。

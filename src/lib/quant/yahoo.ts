@@ -49,6 +49,30 @@ type YahooChart = {
   };
 };
 
+async function fetchEastMoneyKline(id: string, market: string, limit: number): Promise<Bar[] | null> {
+  const prefix = market === "SH" ? "1" : market === "SZ" ? "0" : null;
+  if (!prefix) return null;
+  const url = `https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${prefix}.${id}&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56&klt=101&fqt=1&end=20500101&lmt=${limit}`;
+  const res = await fetch(url, { signal: AbortSignal.timeout(9000) });
+  if (!res.ok) return null;
+  const body = (await res.json()) as { data?: { klines?: string[] } };
+  const lines = body.data?.klines ?? [];
+  const bars: Bar[] = [];
+  for (const line of lines) {
+    const [d, o, c, h, l, v] = line.split(",");
+    if (!d) continue;
+    const t = Date.parse(d.replace(/-/g, "/"));
+    const oN = Number(o);
+    const cN = Number(c);
+    const hN = Number(h);
+    const lN = Number(l);
+    const vN = Number(v);
+    if (![t, oN, cN, hN, lN].every((x) => Number.isFinite(x))) continue;
+    bars.push({ t, o: oN, h: hN, l: lN, c: cN, v: Number.isFinite(vN) ? vN : 0 });
+  }
+  return bars.length >= 15 ? bars : null;
+}
+
 async function fetchChart(yahoo: string, range: string): Promise<YahooChart> {
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahoo)}?interval=1d&range=${range}`;
   const res = await fetch(url, {
@@ -142,13 +166,19 @@ export async function loadHistoryFor(id: string, range: RangeKey): Promise<Histo
   return cached(`h:${id}:${range}`, async () => {
     const inst = instrumentById(id);
     if (!inst) throw new Error("未知标的");
+    const n = range === "5y" ? 800 : range === "2y" ? 400 : range === "1y" ? 250 : range === "6mo" ? 130 : 70;
+    try {
+      const em = await fetchEastMoneyKline(inst.id, inst.market, n);
+      if (em) return { id, bars: em, source: "live" as const };
+    } catch {
+      /* 东方财富不可达再试 Yahoo */
+    }
     try {
       const data = await fetchChart(inst.yahoo, range);
       const bars = parseBars(data);
       if (bars.length < 15) throw new Error("K线不足");
       return { id, bars, source: "live" as const };
     } catch {
-      const n = range === "5y" ? 800 : range === "2y" ? 400 : range === "1y" ? 250 : range === "6mo" ? 130 : 70;
       return { id, bars: sampleBars(id, n), source: "sample" as const };
     }
   });
