@@ -1,5 +1,28 @@
 # 筹算
 
+A 股与场内基金量化台：行情、因子筛选、策略回测、模拟盘。内容不是投资建议。
+
+## 怎么用
+
+需要 [Node.js 20](https://nodejs.org/) 或以上。
+
+```bash
+git clone https://github.com/xuanske/chousuan.git
+cd chousuan
+npm install
+npm run dev
+```
+
+终端会给出本地地址，用浏览器打开。行情由本机服务端去拉 Yahoo Finance，避免浏览器跨域。
+
+可选：复制 `.env.example` 为 `.env`，填入 `XAI_API_KEY`，模拟盘旁的解读才可用。不填不影响行情和回测。
+
+国内克隆：
+
+```bash
+git clone https://ghproxy.net/https://github.com/xuanske/chousuan.git
+```
+
 A 股与场内基金量化台：行情、因子筛选、策略回测、模拟盘。
 
 红涨绿跌。行情走 Yahoo Finance v8 chart（服务端拉取）。模拟盘资金 100 万，存在浏览器本地。
