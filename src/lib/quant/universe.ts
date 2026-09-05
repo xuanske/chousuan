@@ -31,10 +31,10 @@ export const RANGE_OPTIONS: { id: RangeKey; label: string }[] = [
 ];
 
 export const STRATEGIES: { id: StrategyId; name: string; blurb: string }[] = [
-  { id: "ma-cross", name: "均线金叉", blurb: "收盘金叉，次日开盘买入。T+1，含佣金与印花税。" },
-  { id: "rsi-revert", name: "RSI 回归", blurb: "RSI<30 次日开盘买，RSI>70 卖。超卖回弹。" },
+  { id: "ma-cross", name: "均线金叉", blurb: "收盘金叉，次日开盘买。主板 ±10%、创业/科创 ±20%。股票 T+1，ETF 可当日。" },
+  { id: "rsi-revert", name: "RSI 回归", blurb: "RSI<30 次日开盘买，RSI>70 卖。一字板和停牌不成交。" },
   { id: "momentum", name: "20日动量", blurb: "20日涨幅>5% 持有，转负离场。不含基本面，避免前视。" },
-  { id: "dual-stop", name: "双均线止损", blurb: "MA10/MA30 金叉开仓，相对持仓高点回撤 8% 止损。" },
+  { id: "dual-stop", name: "双均线止损", blurb: "MA10/MA30 金叉开仓，相对持仓高点回撤 8% 止损。含滑点。" },
 ];
 
 export function instrumentById(id: string): Instrument | undefined {

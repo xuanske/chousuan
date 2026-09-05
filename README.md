@@ -22,4 +22,4 @@ A 股与场内基金量化台：行情、因子筛选、策略回测、模拟盘
 
 Yahoo 不可用时会落到样本数据，样本行情不会当成真实行情缓存。
 
-姐妹项目：[拂尘](https://github.com/xuanske/fuchen) · [开窍](https://github.com/xuanske/kaiqiao)
+姊妹项目：[拂尘](https://github.com/xuanske/fuchen) · [开窍](https://github.com/xuanske/kaiqiao)
